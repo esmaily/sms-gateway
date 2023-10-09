@@ -1,0 +1,6 @@
+.env
+.test
+.venv/
+.env/
+.idea/
+.idea

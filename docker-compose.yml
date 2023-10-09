@@ -1,0 +1,66 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: "smsgateway-app"
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --reload --workers 1
+    #    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0'
+    volumes:
+      - .:/app
+    depends_on: 
+      - db
+    ports:
+      - 8008:8000
+
+    env_file:
+      - .env
+    networks:
+      - BackendNetwork
+  db:
+    container_name: "smsgateway-db"
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - BackendNetwork
+  pgadmin:
+    container_name: "smsgateway-pgadmin"
+    image: dpage/pgadmin4
+    ports:
+      - 5050:5050
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - BackendNetwork
+  redis:
+    image: redis:latest
+    container_name: 'smsgateway-redis'
+    hostname: redis
+    restart: 'always'
+    networks:
+      - BackendNetwork
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    expose:
+      - 6379
+   
+
+networks:
+  BackendNetwork:
+    name: BackendNetwork
+
+
+volumes: 
+  postgres_data:
+ 
