@@ -1,9 +1,7 @@
 fastapi==0.100.1
 uvicorn==0.23.2
 asyncpg==0.28.0
-elasticsearch==8.9.0
 ormar==0.12.2
-celery==5.3.1
 psycopg2-binary==2.9.6
 ghasedakpack==0.1.13
 kavenegar==1.1.2
