@@ -1,2 +1,2 @@
-# elastic-fastapi-project-example
+# sms-gateway-example
 Fastapi project example with elastic 
