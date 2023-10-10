@@ -17,8 +17,7 @@ async def root():
 async def startup():
     if not database.is_connected:
         await database.connect()
-    # consume_message()
- 
+
 
 @app.on_event("shutdown")
 async def shutdown():

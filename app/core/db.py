@@ -20,10 +20,10 @@ class GatewayModel(ormar.Model):
 
     id: int = ormar.Integer(primary_key=True)
     title: str = ormar.String(max_length=150, unique=True, nullable=False)
-    token: str = ormar.String(max_length=150, unique=True, nullable=False)
-    username: str = ormar.String(max_length=128, unique=True, nullable=False)
-    password: str = ormar.String(max_length=128, unique=True, nullable=False)
-    url: str = ormar.String(max_length=128, unique=True, nullable=False)
+    token: str = ormar.String(max_length=150,nullable=True)
+    username: str = ormar.String(max_length=128,  nullable=True)
+    password: str = ormar.String(max_length=128, nullable=True)
+    url: str = ormar.String(max_length=128, nullable=True)
     active: bool = ormar.Boolean(default=True, nullable=False)
     priority: int = ormar.Integer(default=1)
     created_at: sqlalchemy.DateTime = ormar.DateTime(nullable=True, default=datetime.now)
@@ -35,8 +35,8 @@ class SmsModel(ormar.Model):
         tablename = "smses"
 
     id: int = ormar.Integer(primary_key=True)
-    reciver: str = ormar.String(max_length=255, nullable=False)
-    text: str = ormar.Text(nullable=False)
+    mobile: str = ormar.String(max_length=255, nullable=False)
+    text: str = ormar.Text(nullable=True)
     gateway: Optional[GatewayModel] = ormar.ForeignKey(GatewayModel)
     created_at: sqlalchemy.DateTime = ormar.DateTime(nullable=True, default=datetime.now)
     updated_at: sqlalchemy.DateTime = ormar.DateTime(nullable=True, default=datetime.now)
