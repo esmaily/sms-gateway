@@ -1,6 +1,8 @@
 fastapi==0.100.1
 uvicorn==0.23.2
 asyncpg==0.28.0
+pytest==7.4.2
+httpx==0.25.0
 ormar==0.12.2
 psycopg2-binary==2.9.6
 ghasedakpack==0.1.13
