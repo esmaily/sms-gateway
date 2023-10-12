@@ -1,42 +1,41 @@
 import json
-
-from typing import Any, List
+import random
+from typing import Any, List, Annotated
 from app.core.db import SmsModel, GatewayModel
 from app.core.gateway_api import gateway_api
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
+
 from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
 
 @router.get("/list", response_model=List[SmsModel])
-async def sms_list():
-    return await SmsModel.objects.all()
+async def sms_list(skip: int = 0, limit: int = 100):
+    items = await SmsModel.objects.offset(skip).limit(limit).all()
+
+    return items
 
 
-@router.post("/send")
-async def send_normal(sms: SmsModel):
-    res, ct = await  gateway_api.send(sms)
-    """ 
-    store articles in rabbit mq queues
-    """
-    # response, status_code
-    print(sms.mobile)
-    return {"success": True, "message": "sms has been send"}
-
-
-@router.post("/send-verify")
-async def send_verify(article: SmsModel):
-    payload = json.dumps({
-        "title": article.title,
-        "content": article.content,
-        "author": article.author,
-        "created_at": article.created_at.strftime("%Y-%m-%d %H:%M:%S"),
-        "updated_at": article.created_at.strftime("%Y-%m-%d %H:%M:%S")
+@router.post("/send", status_code=200)
+async def send_normal(
+        mobile: Annotated[str, Body(embed=True, max_length=11)],
+        text: Annotated[str, Body(embed=True, max_length=80)],
+        response: Response):
+    answer, status_code = await  gateway_api.send({
+        "text": text,
+        "mobile": mobile
     })
-    """ 
-    store articles in rabbit mq queues
-    """
-    res, ct = await  gateway_api.send_verify(sms)
+    response.status_code = status_code
+    return {"success": answer["success"], "message": answer["message"]}
 
-    return {"success": True, "message": "sms has been send"}
+
+@router.post("/send-verify", status_code=200)
+async def send_verify(
+        mobile: Annotated[str, Body(embed=True, max_length=11)],
+        response: Response):
+    otp = random.randint(10000, 99999)
+    answer, status_code = await  gateway_api.send_verify(template='register', mobile=mobile, param1=otp)
+    response.status_code = status_code
+
+    return {"success": answer["success"], "message": answer["message"]}
