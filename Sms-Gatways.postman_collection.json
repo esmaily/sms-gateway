@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "18c500d2-06a2-4c06-94f3-59d03da54d21",
+		"name": "Sms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3697852",
+		"_collection_link": "https://dark-water-459239.postman.co/workspace/Karmento-work-space~c5ae9a4e-165e-4d60-8c6b-a21bb1582563/collection/3697852-18c500d2-06a2-4c06-94f3-59d03da54d21?action=share&source=collection_link&creator=3697852"
+	},
+	"item": [
+		{
+			"name": "list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/sms/list?limit=1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"sms",
+						"list"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mobile\":\"09385137679\",\r\n    \"text\":\"hli\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/sms/send",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"sms",
+						"send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mobile\":\"09385137677\",\r\n    \"text\":\"asdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/sms/send-verify",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"sms",
+						"send-verify"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Seed Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mobile\":\"09385137677\",\r\n    \"text\":\"asdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/seed-data",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"seed-data"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://127.0.0.1:8008",
+			"type": "string"
+		}
+	]
+}
