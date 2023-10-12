@@ -1,13 +1,16 @@
+from typing import Any, List
+
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-# from starlette.testclient import TestClient.
-from typing import Any, List
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
-from app.core.db import SmsModel
-from app.main import app,database
-from app.core.db import BaseMeta
+
+from app.core.db import BaseMeta, SmsModel
+from app.main import app, database
+
+
+# from starlette.testclient import TestClient.
 
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test_app_db.db"

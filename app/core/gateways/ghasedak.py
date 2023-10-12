@@ -1,8 +1,10 @@
-from uuid import uuid4
-from app.core.db import GatewayModel
-import ghasedakpack
 import asyncio
 import concurrent.futures
+from uuid import uuid4
+
+import ghasedakpack
+
+from app.core.db import GatewayModel
 
 
 class GhasedakGateway:

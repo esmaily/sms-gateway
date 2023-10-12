@@ -1,11 +1,12 @@
 import json
 import random
-from typing import Any, List, Annotated
-from app.core.db import SmsModel, GatewayModel
-from app.core.gateway_api import gateway_api
-from fastapi import APIRouter, Body, Depends, HTTPException, Response, status
+from typing import Annotated, Any, List
 
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Body, Depends, HTTPException, Response
+
+from app.core.db import GatewayModel, SmsModel
+from app.core.gateway_api import gateway_api
+
 
 router = APIRouter()
 

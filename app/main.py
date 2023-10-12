@@ -1,6 +1,8 @@
 from fastapi import FastAPI
-from app.core.db import database, GatewayModel
+
 from app.api.api import api_router
+from app.core.db import GatewayModel, database
+
 
 app = FastAPI(
     title="FastAPI Elastic Sms Gateway Project",

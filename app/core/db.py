@@ -1,9 +1,12 @@
+from datetime import datetime
+from typing import Optional
+
 import databases
 import ormar
-from typing import Optional
 import sqlalchemy
-from datetime import datetime
+
 from .config import settings
+
 
 database = databases.Database(settings.DB_URL)
 metadata = sqlalchemy.MetaData()

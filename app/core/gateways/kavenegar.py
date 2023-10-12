@@ -1,7 +1,9 @@
-from uuid import uuid4
 import asyncio
-from app.core.db import GatewayModel
+from uuid import uuid4
+
 from kavenegar import APIException, HTTPException, KavenegarAPI
+
+from app.core.db import GatewayModel
 
 
 class KavenegarGateway:
