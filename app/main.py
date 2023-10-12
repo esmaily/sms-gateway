@@ -6,9 +6,10 @@ from app.core.db import GatewayModel, database
 
 app = FastAPI(
     title="FastAPI Elastic Sms Gateway Project",
-    description={
+    description="develop by Jafar Esmaili",
+    contract={
         "name": "Jafar Esmaili",
-        "url": "http://devcoach.ir",
+        "url": "devcoach.ir",
         "email": "jaffar9898@gmail.com",
     },
     version="0.0.1"
