@@ -26,26 +26,49 @@ $ cp .env.example .env
 $ vim .env
 ```
 
-#### 2. Build project  :
+#### 2. Create Docker machine or  connect your network machine:
 
 ```sh
-$ docker compose build
+$ docker-machine create --driver virtualbox smsmanager 
+$ eval $(docker-machine env smsmanager) 
 ```
-
-#### 3. Run project:
+#### 2. Init docker swarm :
 
 ```sh
-$ docker compose up -d
+$  docker swarm init --advertise-addr YOUR_MACHINE_IP
 
 ```
 
-#### 4. Create or Seed gateways Data :
+#### 3. Run local register (if you don't have global registry):
+After create machine should be create or connect to your registry.
+can you read more information [Docker Register](https://hub.docker.com/_/registry)
+
+```sh
+$  docker run -d -p 5000:5000 --restart always --name registry registry:2
+
+```
+#### 4. Build & Push service image:
+
+```sh
+$  docker compose -f docker-swarm.yml build
+$  docker compose -f docker-swarm.yml push
+
+```
+ 
+
+#### 5. Deploy application with Swarm :
+
+```sh
+$  docker stack deploy -c docker-swarm.yml smsgateway
+```
+
+#### 6. Create or Seed gateways Data :
 > Before run this command set your gateways data in `main.py` file and run this command
 ```sh
-$ curl -X POST 127.0.0.1:8008/seed-data
+$ curl -X POST YOUR_MACHINE_IP/seed-data
 ```
 
-#### 2. Run Test :
+#### 7. Run Test :
 
 ```sh
 $ docker compose exec app pytest
@@ -57,10 +80,15 @@ $ docker compose exec app pytest
 
 ### Project link
 
-1. [Project root path](http://127.0.0.1:8008/)
-2. [Swagger ui](http://127.0.0.1:8008/docs/)
-3. [Manage database](http://127.0.0.1:5050/browser/)
+1. [Project root path](http://YOUR_MACHINE_IP:8008/)
+2. [Swagger ui](http://YOUR_MACHINE_IP/docs/)
+3. [Manage database](http://YOUR_MACHINE_IP:5050/browser/)
+4. [Service visualizer](http://YOUR_MACHINE_IP:8080/)
 
 
+### install weave network manager
+```sh
 
+docker plugin install --grant-all-permissions weaveworks/net-plugin
+```
  
