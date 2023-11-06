@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
         Attributes:
             DB_DRIVER (str): The database driver to be used (e.g., 'mysql', 'postgresql').
-            DB_SERVER (str): The server or host where the database is located.
+            DB_HOST (str): The server or host where the database is located.
             DB_USER (str): The username used to authenticate with the database.
             DB_PORT (str): The port number on which the database is accessible.
             DB_PASSWORD (str): The password used for authentication.
@@ -22,12 +22,12 @@ class Settings(BaseSettings):
             All attributes except 'DB_URL' are required and should be provided through environment variables.
 
         """
-    DB_DRIVER: str = Field(..., env='DB_DRIVER')
-    DB_SERVER: str = Field(..., env='DB_SERVER')
-    DB_USER: str = Field(..., env='DB_USER')
-    DB_PORT: str = Field(..., env='DB_PORT')
-    DB_PASSWORD: str = Field(..., env='DB_PASSWORD')
-    DB_NAME: str = Field(..., env='DB_NAME')
+    DB_DRIVER: str = Field(..., env='POSTGRES_DRIVER')
+    DB_HOST: str = Field(..., env='POSTGRES_HOST')
+    DB_USER: str = Field(..., env='POSTGRES_USER')
+    DB_PORT: str = Field(..., env='POSTGRES_PORT')
+    DB_PASSWORD: str = Field(..., env='POSTGRES_PASSWORD')
+    DB_NAME: str = Field(..., env='POSTGRES_DB')
     DB_URL: str = None
 
 
