@@ -1,0 +1,101 @@
+version: '3.7'
+
+configs:
+  redis_config:
+    file: ./docker_config/redis.conf
+
+services:
+  app:
+    image: 127.0.0.1:5000/fastapi-app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --reload --workers 1
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints:
+          - node.role == manager  # Deploy containers to worker nodes
+    ports:
+      - 80:8000
+
+    env_file:
+      - .env
+    networks:
+      - backend
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    networks:
+      - backend
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:5050
+    env_file:
+      - .env
+    networks:
+      - backend
+  redis:
+    image: redis:alpine
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    ports:
+      - 6379:6379
+
+    networks:
+      - backend
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [ node.role == manager ]
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    name: backend
+
+
+
+volumes:
+  postgres_data:
+#    driver: "rexray/rbd"
+#    driver_opts:
+#      size: "50"
+  sms_data:
+#    driver: "rexray/rbd"
+#    driver_opts:
+#      size: "50"
